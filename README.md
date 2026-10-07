@@ -61,5 +61,3 @@ src/app/
   services/             Estado de tareas y persistencia local
   task-form/            Formulario modal para crear tareas
 ```
-
-El PDF `documentacion/paso-a-paso-desarrollo.pdf` explica el desarrollo de la aplicación y sus componentes principales.
