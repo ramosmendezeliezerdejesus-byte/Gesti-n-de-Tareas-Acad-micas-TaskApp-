@@ -1,0 +1,85 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+    <ion-title>Mis tareas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="avatar-button" aria-label="Perfil"><span>ES</span></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="tasks-content">
+  <main class="page-shell">
+    <section class="welcome-block">
+      <p class="eyebrow">TU ESPACIO DE ESTUDIO</p>
+      <h1>Un paso a la vez<span>.</span></h1>
+      <p class="welcome-copy">Organiza tus deberes y haz espacio para lo que sigue.</p>
+    </section>
+
+    <section class="progress-card" aria-label="Resumen de tareas">
+      <div class="progress-copy">
+        <span class="progress-label">Tu progreso</span>
+        <strong>{{ completadas }} <span>de</span> {{ tareas().length }} <span>completadas</span></strong>
+      </div>
+      <div class="progress-ring" [class.progress-ring--complete]="tareas.length > 0 && pendientes === 0">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+      <div class="progress-track"><span [style.width.%]="tareas().length ? completadas / tareas().length * 100 : 0"></span></div>
+    </section>
+
+    <div class="section-heading">
+      <div>
+        <h2>Mi lista</h2>
+        <p>{{ pendientes }} {{ pendientes === 1 ? 'pendiente' : 'pendientes' }} por completar</p>
+      </div>
+      <ion-segment [(ngModel)]="filtro" mode="ios" aria-label="Filtrar tareas">
+        <ion-segment-button value="Todas"><ion-label>Todas</ion-label></ion-segment-button>
+        <ion-segment-button value="Pendientes"><ion-label>Pend.</ion-label></ion-segment-button>
+        <ion-segment-button value="Completadas"><ion-label>Hechas</ion-label></ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <ion-list class="task-list" *ngIf="tareasVisibles.length; else emptyState" lines="none">
+      <ion-item-sliding *ngFor="let tarea of tareasVisibles; trackBy: trackById">
+        <ion-item class="task-item" [class.task-item--done]="tarea.completada">
+          <ion-checkbox slot="start" [checked]="tarea.completada" (ionChange)="alternar(tarea)"
+            [attr.aria-label]="'Marcar ' + tarea.titulo + ' como completada'"></ion-checkbox>
+          <ion-label>
+            <h3 [class.strikethrough]="tarea.completada">{{ tarea.titulo }}</h3>
+            <p *ngIf="tarea.descripcion" [class.strikethrough]="tarea.completada">{{ tarea.descripcion }}</p>
+            <ion-badge [class]="'priority priority--' + tarea.prioridad.toLowerCase()">{{ tarea.prioridad }}</ion-badge>
+          </ion-label>
+          <ion-button slot="end" fill="clear" color="medium" class="delete-button"
+            [attr.aria-label]="'Eliminar ' + tarea.titulo" (click)="eliminar(tarea)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" expandable (click)="eliminar(tarea)">
+            <ion-icon slot="icon-only" name="trash-outline" aria-label="Eliminar"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ng-template #emptyState>
+      <section class="empty-state">
+        <div class="empty-icon"><ion-icon name="sparkles-outline"></ion-icon></div>
+        <h3>{{ filtro === 'Todas' ? 'Tu lista empieza aquí' : 'No hay tareas en esta sección' }}</h3>
+        <p>{{ filtro === 'Todas' ? 'Añade tu primer deber y organiza tu día.' : 'Prueba con otro filtro o añade una tarea nueva.' }}</p>
+        <ion-button *ngIf="filtro === 'Todas'" fill="outline" shape="round" (click)="abrirFormulario()">Crear primera tarea</ion-button>
+      </section>
+    </ng-template>
+  </main>
+</ion-content>
+
+<ion-footer class="main-footer" mode="ios">
+  <ion-toolbar>
+    <div class="footer-summary"><span class="footer-dot"></span>{{ tareas().length }} {{ tareas().length === 1 ? 'tarea en total' : 'tareas en total' }}</div>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-fab">
+  <ion-fab-button aria-label="Añadir tarea" (click)="abrirFormulario()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

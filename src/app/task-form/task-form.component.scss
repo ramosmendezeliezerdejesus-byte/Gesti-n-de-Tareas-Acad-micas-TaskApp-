@@ -1,0 +1,23 @@
+:host {
+  color: #20233a;
+  color-scheme: light;
+  --ion-background-color: #f7f8fc;
+  --ion-text-color: #20233a;
+}
+
+ion-header ion-toolbar {
+  --background: #fff;
+  --color: #20233a;
+  --border-color: #eeeef4;
+}
+
+ion-title { color: #20233a; }
+ion-content { --background: #f7f8fc; --color: #20233a; color-scheme: light; }
+
+form { display: grid; gap: 12px; padding-top: 10px; }
+.form-field { --background: #fff; --color: #292b42; --border-radius: 16px; --padding-start: 16px; --inner-padding-end: 16px; box-shadow: 0 4px 18px rgb(32 44 90 / 5%); }
+ion-input, ion-textarea, ion-select { --color: #292b42; --placeholder-color: #9294a5; --highlight-color-focused: #5257d8; }
+ion-input::part(label), ion-textarea::part(label), ion-select::part(label) { color: #686b83; }
+ion-input::part(native), ion-textarea::part(native), ion-select::part(text) { color: #292b42; }
+.error-note { margin: -8px 8px 2px; font-size: 12px; }
+.save-button { margin-top: 12px; height: 50px; font-weight: 700; --background: #5257d8; --background-hover: #4146c4; --color: #fff; }
